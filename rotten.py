@@ -89,6 +89,8 @@ class RottenImage(Dataset):
                 dictLabels[label].append(filename)
             else:
                 dictLabels[label] = [filename]
+
+        print(dictLabels.keys())
         return dictLabels
 
     def create_batch(self, batchsz):
@@ -141,12 +143,12 @@ class RottenImage(Dataset):
         flatten_support_x = [item
                              for sublist in self.support_x_batch[index] for item in sublist]
         support_y = np.array(
-            [self.img2label[item[:9]]  # filename:n0153282900000005.jpg, the first 9 characters treated as label
+            [self.img2label[item.split(os.path.sep)[-2]]  # filename:n0153282900000005.jpg, the first 9 characters treated as label
              for sublist in self.support_x_batch[index] for item in sublist]).astype(np.int32)
 
         flatten_query_x = [item
                            for sublist in self.query_x_batch[index] for item in sublist]
-        query_y = np.array([self.img2label[item[:9]]
+        query_y = np.array([self.img2label[item.split(os.path.sep)[-2]]
                             for sublist in self.query_x_batch[index] for item in sublist]).astype(np.int32)
 
         # print('global:', support_y, query_y)

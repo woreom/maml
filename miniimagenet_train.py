@@ -57,10 +57,10 @@ def main():
     # batchsz here means total episode number
     mini = MiniImagenet('/mnt/d/M3/Projects/okl/MAML-Pytorch/', mode='train', n_way=args.n_way, k_shot=args.k_spt,
                         k_query=args.k_qry,
-                        batchsz=10, resize=args.imgsz)
+                        batchsz=100, resize=args.imgsz)
     mini_test = MiniImagenet('/mnt/d/M3/Projects/okl/MAML-Pytorch/', mode='test', n_way=args.n_way, k_shot=args.k_spt,
                              k_query=args.k_qry,
-                             batchsz=5, resize=args.imgsz)
+                             batchsz=10, resize=args.imgsz)
 
     for epoch in range(args.epoch//10000):
         # fetch meta_batchsz num of episode each time
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     argparser.add_argument('--epoch', type=int, help='epoch number', default=60000)
     argparser.add_argument('--n_way', type=int, help='n way', default=5)
     argparser.add_argument('--k_spt', type=int, help='k shot for support set', default=1)
-    argparser.add_argument('--k_qry', type=int, help='k shot for query set', default=15)
+    argparser.add_argument('--k_qry', type=int, help='k shot for query set', default=3)
     argparser.add_argument('--imgsz', type=int, help='imgsz', default=84)
     argparser.add_argument('--imgc', type=int, help='imgc', default=3)
     argparser.add_argument('--task_num', type=int, help='meta batch size, namely task num', default=4)
