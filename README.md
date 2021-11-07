@@ -36,10 +36,8 @@ dataset/
 	rottenapples/
 	rottenbanana/
 ├── test/
-	freshapples/
-	freshbanana/
-	rottenapples/
-	rottenbanana/
+	freshoranges/
+	freshoranges/
 
 ```
 3. modify the `arguments` in `terminal`:
