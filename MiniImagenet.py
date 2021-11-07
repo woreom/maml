@@ -90,6 +90,8 @@ class MiniImagenet(Dataset):
                     dictLabels[label].append(filename)
                 else:
                     dictLabels[label] = [filename]
+
+        print(dictLabels.keys())
         return dictLabels
 
     def create_batch(self, batchsz):
