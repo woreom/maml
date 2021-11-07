@@ -21,31 +21,54 @@ For First-Order Approximation Implementation, Reptile namely, please visit [HERE
 
 ## Howto
 
-For 5-way 1-shot exp., it allocates nearly 6GB GPU memory.
+For 6-way 1-shot exp., it allocates nearly 1GB GPU memory.
 
-1. download `MiniImagenet` dataset from [here](https://github.com/dragen1860/LearningToCompare-Pytorch/issues/4), splitting: `train/val/test.csv` from [here](https://github.com/twitter/meta-learning-lstm/tree/master/data/miniImagenet).
+1. download `Fruits fresh and rotten for classification` dataset from [here](https://www.kaggle.com/sriramr/fruits-fresh-and-rotten-for-classification)
 2. extract it like:
 ```shell
-miniimagenet/
-├── images
-	├── n0210891500001298.jpg  
-	├── n0287152500001298.jpg 
-	...
-├── test.csv
-├── val.csv
-└── train.csv
-
+dataset/
+├── train/
+	freshapples/
+		├── n0210891500001298.jpg  
+		├── n0287152500001298.jpg 
+		...
+	freshbanana/
+	rottenapples/
+	rottenbanana/
+├── test/
+	freshapples/
+	freshbanana/
+	rottenapples/
+	rottenbanana/
 
 ```
-3. modify the `path` in `miniimagenet_train.py`:
+3. modify the `arguments` in `terminal`:
 ```python
-        mini = MiniImagenet('miniimagenet/', mode='train', n_way=args.n_way, k_shot=args.k_spt,
-                    k_query=args.k_qry,
-                    batchsz=10000, resize=args.imgsz)
-		...
-        mini_test = MiniImagenet('miniimagenet/', mode='test', n_way=args.n_way, k_shot=args.k_spt,
-                    k_query=args.k_qry,
-                    batchsz=100, resize=args.imgsz)
+        usage: rotten_train.py [-h] [--n_way N_WAY] [--k_spt K_SPT] [--k_qry K_QRY]
+                       [--path PATH] [--batch BATCH] [--epoch EPOCH]
+                       [--imgsz IMGSZ] [--imgc IMGC] [--task_num TASK_NUM]
+                       [--meta_lr META_LR] [--update_lr UPDATE_LR]
+                       [--update_step UPDATE_STEP]
+                       [--update_step_test UPDATE_STEP_TEST]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --n_way N_WAY         n way
+  --k_spt K_SPT         k shot for support set
+  --k_qry K_QRY         k shot for query set
+  --path PATH           path to the dataset
+  --batch BATCH         epoch number
+  --epoch EPOCH         epoch number
+  --imgsz IMGSZ         imgsz
+  --imgc IMGC           imgc
+  --task_num TASK_NUM   meta batch size, namely task num
+  --meta_lr META_LR     meta-level outer learning rate
+  --update_lr UPDATE_LR
+                        task-level inner update learning rate
+  --update_step UPDATE_STEP
+                        task-level inner update steps
+  --update_step_test UPDATE_STEP_TEST
+                        update steps for finetunning
 ```
 to your actual data path.
 
@@ -55,29 +78,8 @@ to your actual data path.
 If your reproducation perf. is not so good, maybe you can enlarge your `training epoch` to get longer training. And MAML is notorious for its hard training. Therefore, this implementation only provide you a basic start point to begin your research.
 and the performance below is true and achieved on my machine.
 
-## Benchmark
 
-| Model                               | Fine Tune | 5-way Acc. |        | 20-way Acc.|        |
-|-------------------------------------|-----------|------------|--------|------------|--------|
-|                                     |           | 1-shot     | 5-shot | 1-shot     | 5-shot |
-| Matching Nets                       | N         | 43.56%     | 55.31% | 17.31%     | 22.69% |
-| Meta-LSTM                           |           | 43.44%     | 60.60% | 16.70%     | 26.06% |
-| MAML                                | Y         | 48.7%      | 63.11% | 16.49%     | 19.29% |
-| **Ours**                            | Y         | 46.2%      | 60.3%	| -    		 | - 	|
-
-
-
-# Ominiglot
-
-## Howto
-run `python omniglot_train.py`, the program will download `omniglot` dataset automatically.
-
-decrease the value of `args.task_num` to fit your GPU memory capacity.
-
-For 5-way 1-shot exp., it allocates nearly 3GB GPU memory.
-
-
-# Refer to this Rep.
+# References
 ```
 @misc{MAML_Pytorch,
   author = {Liangqu Long},
